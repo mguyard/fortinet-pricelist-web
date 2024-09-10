@@ -249,3 +249,40 @@ select, input[type="text"] {
 .context-menu-item:hover {
     background-color: var(--fortinet-light-gray);
 }
+
+.file-input-container {
+    display: flex;
+    flex-direction: column;
+}
+
+.file-select-wrapper {
+    display: flex;
+    align-items: center;
+}
+
+#fileSelect {
+    flex: 1;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+.spinner {
+    animation: spin 1s linear infinite;
+}
+
+.load-button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    margin-left: 8px;
+    font-size: 1.2em;
+    color: var(--fortinet-red);
+}
+
+.load-button:disabled {
+    cursor: not-allowed;
+    color: #ccc;
+}

@@ -16,11 +16,11 @@ function loadYears() {
         .then(years => {
             console.log('Years received:', years);
             const select = document.getElementById('yearSelect');
-            select.innerHTML = '<option value="">Sélectionnez une année</option>';
+            select.innerHTML = '<option value="">Please select a year</option>';
             if (years.length === 0) {
                 console.log('No years found');
                 const option = document.createElement('option');
-                option.textContent = 'Aucune année disponible';
+                option.textContent = 'No years found';
                 select.appendChild(option);
             } else {
                 years.sort((a, b) => b - a);
@@ -39,7 +39,7 @@ function loadYears() {
         .catch(error => {
             console.error('Error loading years:', error);
             const select = document.getElementById('yearSelect');
-            select.innerHTML = '<option value="">Erreur de chargement des années</option>';
+            select.innerHTML = '<option value="">Failed to load years</option>';
         });
 }
 
@@ -50,7 +50,7 @@ function loadQuarters(year) {
         .then(response => response.json())
         .then(quarters => {
             const select = document.getElementById('quarterSelect');
-            select.innerHTML = '<option value="">Sélectionnez un trimestre</option>';
+            select.innerHTML = '<option value="">Please select a quarter</option>';
             select.disabled = false;
 
             quarters.sort((a, b) => {
@@ -84,7 +84,7 @@ function loadFiles(year, quarter) {
         .then(response => response.json())
         .then(files => {
             const select = document.getElementById('fileSelect');
-            select.innerHTML = '<option value="">Sélectionnez un fichier</option>';
+            select.innerHTML = '<option value="">Please select a pricelist</option>';
             select.disabled = false;
             files.forEach(file => {
                 const option = document.createElement('option');
@@ -103,53 +103,33 @@ function formatFileName(fileName, year, quarter) {
     return formattedName;
 }
 
-function searchData() {
+async function searchData() {
     const year = document.getElementById('yearSelect').value;
     const quarter = document.getElementById('quarterSelect').value;
     const file = document.getElementById('fileSelect').value;
-    const search = document.getElementById('searchInput').value;
 
     if (!year || !quarter || !file) {
-        alert('Veuillez sélectionner une année, un trimestre et un fichier.');
-        return;
+        alert('You need to select a year, a quarter, and a file');
+        return Promise.reject('Missing parameters');
     }
 
-    if (search.trim() !== '') {
-        addFilter('Search', search.trim());
+    try {
+        const response = await fetch(`/api/data?year=${encodeURIComponent(year)}&quarter=${encodeURIComponent(quarter)}&file=${encodeURIComponent(file)}`);
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        const data = await response.json();
+        if (!Array.isArray(data)) {
+            throw new Error('Data is not an array');
+        }
+        allData = data;
+        currentPage = 1;
+        updatePagination();
+    } catch (error) {
+        console.error('Error loading data:', error);
+        document.getElementById('results').innerHTML = `<p>Failed to load data : ${error.message}</p>`;
     }
-
-    fetch(`/api/data?year=${encodeURIComponent(year)}&quarter=${encodeURIComponent(quarter)}&file=${encodeURIComponent(file)}&search=${encodeURIComponent(search)}`)
-        .then(response => {
-            if (!response.ok) {
-                throw new Error(`HTTP error! status: ${response.status}`);
-            }
-            return response.json();
-        })
-        .then(data => {
-            if (!Array.isArray(data)) {
-                throw new Error('Les données reçues ne sont pas un tableau');
-            }
-            allData = data;
-            currentPage = 1;
-            updatePagination();
-        })
-        .catch(error => {
-            console.error('Error searching data:', error);
-            document.getElementById('results').innerHTML = `<p>Erreur lors de la recherche des données: ${error.message}</p>`;
-        });
 }
-
-// function displayResults(data) {
-//     // Mettre à jour le tableau avec les données filtrées
-//     renderTable(data);
-    
-//     // Mettre à jour la pagination
-//     currentPage = 1; // Réinitialiser à la première page après un changement de filtre
-//     updatePagination(data);
-    
-//     // Mettre à jour les tags de filtre affichés
-//     updateFilterTags();
-// }
 
 function updatePagination(filteredData = null) {
     const dataToPaginate = filteredData || allData;
@@ -190,7 +170,7 @@ function renderTable(data) {
         const row = tbody.insertRow();
         const cell = row.insertCell();
         cell.colSpan = 5;
-        cell.textContent = 'Aucun résultat trouvé';
+        cell.textContent = 'No results found';
     }
 }
 
@@ -209,7 +189,7 @@ function renderPaginationControls(totalPages) {
             a.addEventListener('click', (e) => {
                 e.preventDefault();
                 currentPage = pageNum;
-                updatePagination();
+                applyFilters();
             });
         }
         li.appendChild(a);
@@ -293,7 +273,6 @@ function removeFilter(column, value) {
 }
 
 function applyFilters() {
-    console.log(allData.length, 'rows before filtering');
     const filteredData = allData.filter(item => {
         // Vérifier les filtres de colonne
         const columnFiltersPassed = Object.entries(activeFilters.columns).every(([column, value]) => item[column] === value);
@@ -308,7 +287,6 @@ function applyFilters() {
         // Retourner vrai seulement si les deux filtres passent
         return columnFiltersPassed && searchFiltersPassed;
     });
-    console.log(filteredData.length, 'rows after filtering');
     updatePagination(filteredData);
 }
 
@@ -349,27 +327,43 @@ document.addEventListener('DOMContentLoaded', () => {
     itemsPerPageSelect.addEventListener('change', (e) => {
         itemsPerPage = parseInt(e.target.value);
         currentPage = 1; // Reset to first page when changing items per page
-        updatePagination();
+        applyFilters();
     });
 
     const searchForm = document.getElementById('searchForm');
     searchForm.addEventListener('submit', (event) => {
         event.preventDefault();
-        searchData();
+        const searchInput = document.getElementById('searchInput').value.trim();
+        if (searchInput !== '') {
+            addFilter('Search', searchInput);
+        }
+        document.getElementById('searchInput').value = ''; // Vider le champ de recherche
     });
 
     const searchInput = document.getElementById('searchInput');
     searchInput.addEventListener('keypress', (event) => {
         if (event.key === 'Enter') {
             event.preventDefault();
-            searchData();
+            const searchInputValue = searchInput.value.trim();
+            if (searchInputValue !== '') {
+                addFilter('Search', searchInputValue);
+            }
+            searchInput.value = ''; // Vider le champ de recherche
         }
     });
 
-    // Ajoutez cet écouteur pour l'icône "vider"
     const clearSearchButton = document.getElementById('clearSearchButton');
     clearSearchButton.addEventListener('click', () => {
         searchInput.value = ''; // Vider le champ de recherche
         applyFilters(); // Appliquer les filtres pour mettre à jour l'affichage
+    });
+
+    const loadDataButton = document.getElementById('loadDataButton');
+    loadDataButton.addEventListener('click', () => {
+        const icon = loadDataButton.querySelector('i');
+        icon.classList.add('spinner');
+        searchData().finally(() => {
+            icon.classList.remove('spinner');
+        });
     });
 });
