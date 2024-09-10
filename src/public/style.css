@@ -151,6 +151,11 @@ select, input[type="text"] {
     margin-bottom: 20px;
 }
 
+#filterTitle {
+    display: flex;
+    align-items: center;
+}
+
 .filter-tag {
     display: inline-block;
     background-color: var(--fortinet-light-gray);
@@ -201,6 +206,10 @@ select, input[type="text"] {
 
 #resultsTable tr:hover {
     background-color: #F8F8F8;
+}
+
+.nowrap-column {
+    white-space: nowrap;
 }
 
 .pagination {
@@ -286,4 +295,14 @@ select, input[type="text"] {
 .load-button:disabled {
     cursor: not-allowed;
     color: #ccc;
+}
+
+.clear-filters-icon {
+    cursor: pointer;
+    margin-right: 8px;
+    color: var(--fortinet-dark-gray);
+}
+
+.clear-filters-icon:hover {
+    color: var(--fortinet-dark-gray);
 }

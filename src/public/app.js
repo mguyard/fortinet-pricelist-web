@@ -153,6 +153,9 @@ function renderTable(data) {
         const columns = ['Identifier', 'Product Family Group', 'Product', 'Product Type', 'Description #1', 'SKU', 'Price'];
         columns.forEach(column => {
             const cell = row.insertCell();
+            if (['SKU', 'Price'].includes(column)) {
+                cell.classList.add("nowrap-column");
+            }
             cell.textContent = item[column] || '';
             if (column === 'Price') {
                 cell.textContent = `$${item[column].toFixed(2)}`;
@@ -191,6 +194,8 @@ function renderPaginationControls(totalPages) {
                 currentPage = pageNum;
                 applyFilters();
             });
+        } else {
+            a.addEventListener('click', (e) => e.preventDefault()); // Prevent link to be clicked
         }
         li.appendChild(a);
         paginationElement.appendChild(li);
@@ -257,6 +262,9 @@ function addFilter(column, value) {
     } else {
         activeFilters.columns[column] = value;
     }
+
+    currentPage = 1; // Forcer le passage à la page 1
+
     applyFilters();
     updateFilterTags();
 }
@@ -363,6 +371,16 @@ document.addEventListener('DOMContentLoaded', () => {
     clearSearchButton.addEventListener('click', () => {
         searchInput.value = ''; // Vider le champ de recherche
         applyFilters(); // Appliquer les filtres pour mettre à jour l'affichage
+    });
+
+    // Ajouter un gestionnaire d'événements pour l'icône d'effacement des filtres
+    const clearAllFiltersButton = document.getElementById('clearAllFilters');
+    clearAllFiltersButton.addEventListener('click', () => {
+        activeFilters.search = [];
+        activeFilters.columns = {};
+        currentPage = 1; // Forcer le passage à la page 1
+        applyFilters();
+        updateFilterTags();
     });
 
     const loadDataButton = document.getElementById('loadDataButton');

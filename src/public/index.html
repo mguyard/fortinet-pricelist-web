@@ -6,7 +6,7 @@
     <title>Fortinet PriceList Search</title>
     <link rel="stylesheet" href="/style.css">
     <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
 </head>
 <body>
     <div class="container">
@@ -38,7 +38,7 @@
                                 <option value="">Select a file</option>
                             </select>
                             <button id="loadDataButton" class="load-button">
-                                <i class="fas fa-sync-alt"></i>
+                                <i class="fas fa-sync-alt" title="Load Pricelist"></i>
                             </button>
                         </div>
                     </div>
@@ -55,7 +55,10 @@
                 <button type="submit" class="btn-search">Search</button>
             </form>
             <div id="filterContainer">
-                <h3>Active Filters:</h3>
+                <div id="filterTitle">
+                    <i id="clearAllFilters" class="fas fa-filter clear-filters-icon" title="Clear all filters"></i>
+                    <h3>Active Filters:</h3>
+                </div>
                 <div id="filterTags"></div>
             </div>
             <div class="results-controls">
