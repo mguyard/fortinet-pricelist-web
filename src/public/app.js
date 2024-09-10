@@ -14,7 +14,7 @@ function loadYears() {
             return response.json();
         })
         .then(years => {
-            console.log('Years received:', years);
+            // console.log('Years received:', years);
             const select = document.getElementById('yearSelect');
             select.innerHTML = '<option value="">Please select a year</option>';
             if (years.length === 0) {
@@ -144,7 +144,7 @@ function updatePagination(filteredData = null) {
 }
 
 function renderTable(data) {
-    console.log(data.length, 'rows to display');
+    // console.log(data.length, 'rows to display');
     const tbody = document.querySelector('#resultsTable tbody');
     tbody.innerHTML = '';
 
@@ -262,7 +262,7 @@ function addFilter(column, value) {
 }
 
 function removeFilter(column, value) {
-    console.log('Removing filter:', column, value);
+    // console.log('Removing filter:', column, value);
     if (column === 'Search') {
         activeFilters.search = activeFilters.search.filter(term => term !== value);
     } else {
@@ -320,7 +320,7 @@ function updateFilterTags() {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-    console.log('DOM fully loaded and parsed');
+    // console.log('DOM fully loaded and parsed');
     loadYears();
 
     const itemsPerPageSelect = document.getElementById('itemsPerPage');

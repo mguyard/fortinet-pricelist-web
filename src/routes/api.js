@@ -8,7 +8,7 @@ const DATA_DIR = '/data';
 router.get('/years', (req, res) => {
     try {
         const years = excelService.listYears();
-        console.log('Years sent to client:', years); // Pour le débogage
+        // console.log('Years sent to client:', years); // Pour le débogage
         res.json(years);
     } catch (error) {
         console.error('Error listing years:', error);

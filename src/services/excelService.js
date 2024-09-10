@@ -9,7 +9,7 @@ export function listYears() {
         const years = fs.readdirSync(DATA_DIR)
             .filter(item => fs.statSync(path.join(DATA_DIR, item)).isDirectory())
             .sort((a, b) => b.localeCompare(a)); // Trie les années par ordre décroissant
-        console.log('Years found:', years); // Pour le débogage
+        // console.log('Years found:', years); // Pour le débogage
         return years;
     } catch (error) {
         console.error('Error listing years:', error);
@@ -30,7 +30,7 @@ export function listFiles(year, quarter) {
             .map(file => {
                 const filePath = path.join(quarterPath, file);
                 const stats = fs.statSync(filePath);
-                console.log(`File: ${file}, Created At: ${stats.mtime}`); // Pour le débogage
+                // console.log(`File: ${file}, Created At: ${stats.mtime}`); // Pour le débogage
                 return {
                     name: file,
                     modifiedAt: stats.mtime // Assurez-vous que c'est un objet Date
