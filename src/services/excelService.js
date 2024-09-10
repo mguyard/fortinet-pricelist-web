@@ -87,8 +87,9 @@ export function getFileHeaders(fileName) {
     const sheet = workbook.Sheets['DataSet'];
 
     const range = XLSX.utils.decode_range(sheet['!ref']);
-    range.s.r = 14; // La ligne 15 en index 0-based
-    range.e.r = 14; // Nous ne voulons que la ligne d'en-tête
+    const startRow = path.basename(filePath).includes("END USER") ? 0 : 14;
+    range.s.r = startRow;
+    range.e.r = startRow;
     const headerRange = XLSX.utils.encode_range(range);
 
     const headers = XLSX.utils.sheet_to_json(sheet, {

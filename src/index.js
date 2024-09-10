@@ -28,5 +28,6 @@ const httpsOptions = {
 const server = https.createServer(httpsOptions, app);
 
 server.listen(PORT, () => {
-    console.log(`Serveur HTTPS démarré sur le port ${PORT}`);
+    console.log("Webserver is running...")
+    console.log(`Try to connect to https://localhost:${PORT} or on another port if you have changed it during your container creation`);
 });

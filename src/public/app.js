@@ -109,7 +109,7 @@ async function searchData() {
     const file = document.getElementById('fileSelect').value;
 
     if (!year || !quarter || !file) {
-        alert('You need to select a year, a quarter, and a file');
+        alert('You need to select a year, a quarter, and a pricelist file');
         return Promise.reject('Missing parameters');
     }
 
@@ -150,7 +150,7 @@ function renderTable(data) {
 
     data.forEach(item => {
         const row = tbody.insertRow();
-        const columns = ['Product Family Group', 'Product', 'Product Type', 'Description #1', 'Price'];
+        const columns = ['Identifier', 'Product Family Group', 'Product', 'Product Type', 'Description #1', 'SKU', 'Price'];
         columns.forEach(column => {
             const cell = row.insertCell();
             cell.textContent = item[column] || '';
@@ -268,6 +268,13 @@ function removeFilter(column, value) {
     } else {
         delete activeFilters.columns[column];
     }
+
+    // Vérifiez si tous les filtres ont été retirés
+    const noFiltersLeft = activeFilters.search.length === 0 && Object.keys(activeFilters.columns).length === 0;
+    if (noFiltersLeft) {
+        currentPage = 1; // Forcer le passage à la page 1
+    }
+
     applyFilters();
     updateFilterTags();
 }
