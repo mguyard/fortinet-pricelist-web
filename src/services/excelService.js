@@ -46,13 +46,13 @@ export function listFiles(year, quarter) {
 }
 
 export function getFileData(filePath, searchTerm) {
-    //const filePath = path.join(DATA_DIR, fileName);
     const workbook = XLSX.readFile(filePath);
     const sheet = workbook.Sheets['DataSet'];
 
     // Lire les données à partir de la ligne 15
     const range = XLSX.utils.decode_range(sheet['!ref']);
-    range.s.r = 14; // La ligne 15 en index 0-based
+    const startRow = path.basename(filePath).includes("END USER") ? 0 : 14; // Commencer à la ligne 1 pour les fichiers "END USER" sinon à la ligne 15
+    range.s.r = startRow;
     const newRange = XLSX.utils.encode_range(range);
 
     const data = XLSX.utils.sheet_to_json(sheet, {
