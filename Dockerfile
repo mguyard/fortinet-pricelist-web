@@ -19,12 +19,11 @@ RUN mkdir -p /etc/certs
 COPY generate-cert.sh /generate-cert.sh
 RUN chmod +x /generate-cert.sh
 
-# Copier les fichiers source de l'application
-COPY . .
+# Copier le contenu du répertoire src dans /app/src
+COPY src /app/src
 
 # Définir les volumes
 VOLUME /data
-VOLUME /app/src
 
 # Exposer le port HTTPS (par défaut 3000)
 EXPOSE 3000
