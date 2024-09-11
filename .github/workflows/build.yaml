@@ -62,7 +62,16 @@ jobs:
 
       - name: Test Image
         run: |
-          docker run --rm ${{ env.registry }}/${{ env.image_name }}:latest --help
+          docker run -d --name test-container -p 3000:3000 ${{ env.registry }}/${{ env.image_name }}:latest
+          response=$(curl -k -s -o /dev/null -w "%{http_code}" https://localhost:3000)
+          if [ $response -eq 200 ]; then
+            echo "Test passed: Received HTTP 200"
+          else
+            echo "Test failed: Received HTTP $response"
+            exit 1
+          fi
+          docker stop test-container && docker rm test-container
+
 
       - name: Build and push
         uses: docker/build-push-action@v5
