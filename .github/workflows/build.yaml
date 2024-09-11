@@ -17,7 +17,7 @@ jobs:
     runs-on: ubuntu-latest
     env:
       registry: ghcr.io
-      image_name: mguyard/import-sfdc-task
+      image_name: mguyard/fortinet-pricelist-web
       platforms: linux/amd64,linux/arm64
 
     permissions:
