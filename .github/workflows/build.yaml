@@ -63,7 +63,7 @@ jobs:
       - name: Test Image
         run: |
           # Utilisez le premier tag généré par l'étape metadata
-          IMAGE_TO_TEST=$(echo "${{ steps.meta.outputs.tags }}" | awk '{print $1}')
+          IMAGE_TO_TEST=$(echo "${{ steps.meta.outputs.tags }}" | head -n 1)
           echo "Testing image: $IMAGE_TO_TEST"
           
           # Lancer le conteneur en arrière-plan
