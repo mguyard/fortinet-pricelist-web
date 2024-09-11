@@ -62,15 +62,40 @@ jobs:
 
       - name: Test Image
         run: |
-          docker run -d --name test-container -p 3000:3000 ${{ env.registry }}/${{ env.image_name }}:latest
-          response=$(curl -k -s -o /dev/null -w "%{http_code}" https://localhost:3000)
-          if [ $response -eq 200 ]; then
+          # Utilisez le premier tag généré par l'étape metadata
+          IMAGE_TO_TEST=$(echo "${{ steps.meta.outputs.tags }}" | cut -d' ' -f1)
+          echo "Testing image: $IMAGE_TO_TEST"
+          
+          # Lancer le conteneur en arrière-plan
+          docker run -d --name test-container -p 3000:3000 $IMAGE_TO_TEST
+          
+          # Attendre que le conteneur soit prêt (ajustez le temps si nécessaire)
+          echo "Waiting for container to start..."
+          sleep 20
+          
+          # Vérifier si le conteneur est en cours d'exécution
+          if ! docker ps | grep -q test-container; then
+            echo "Container failed to start"
+            docker logs test-container
+            exit 1
+          fi
+          
+          # Tester l'accès à l'application
+          echo "Testing application access..."
+          response=$(curl -k -s -o /dev/null -w "%{http_code}" https://localhost:3000 --max-time 10)
+          echo "Received HTTP status code: $response"
+          
+          if [ "$response" -eq 200 ]; then
             echo "Test passed: Received HTTP 200"
           else
             echo "Test failed: Received HTTP $response"
+            docker logs test-container
             exit 1
           fi
+          
+          # Arrêter et supprimer le conteneur
           docker stop test-container && docker rm test-container
+
 
 
       - name: Build and push
