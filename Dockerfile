@@ -1,5 +1,11 @@
 FROM node:20-alpine
 
+LABEL maintainer="Guyard Marc <marc@mguyard.com>"
+LABEL description="Container NodeJS for parsing and searching in Fortinet Pricelist"
+LABEL org.opencontainers.image.authors="Guyard Marc <marc@mguyard.com>"
+LABEL org.opencontainers.image.licenses="GPL-3.0"
+LABEL com.example.version.is-production="true"
+
 # Installer OpenSSL
 RUN apk add --no-cache openssl
 
