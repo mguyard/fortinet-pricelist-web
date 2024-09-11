@@ -63,11 +63,11 @@ jobs:
       - name: Test Image
         run: |
           # Utilisez le premier tag généré par l'étape metadata
-          IMAGE_TO_TEST=$(echo "${{ steps.meta.outputs.tags }}" | cut -d' ' -f1)
+          IMAGE_TO_TEST=$(echo "${{ steps.meta.outputs.tags }}" | awk '{print $1}')
           echo "Testing image: $IMAGE_TO_TEST"
           
           # Lancer le conteneur en arrière-plan
-          docker run -d --name test-container -p 3000:3000 $IMAGE_TO_TEST
+          docker run -d --name test-container -p 3000:3000 -v /tmp/data:/data $IMAGE_TO_TEST
           
           # Attendre que le conteneur soit prêt (ajustez le temps si nécessaire)
           echo "Waiting for container to start..."
