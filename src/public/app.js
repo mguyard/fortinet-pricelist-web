@@ -391,4 +391,13 @@ document.addEventListener('DOMContentLoaded', () => {
             icon.classList.remove('spinner');
         });
     });
+
+    // Lire la version du fichier package.json via l'API et l'injecter dans le HTML
+    fetch('/api/version')
+        .then(response => response.json())
+        .then(data => {
+            const versionElement = document.getElementById('version');
+            versionElement.textContent = `Version ${data.version}`;
+        })
+        .catch(error => console.error('Error loading version:', error));
 });

@@ -1,9 +1,24 @@
 import express from 'express';
 import path from 'path';
 import * as excelService from '../services/excelService.js';
+import fs from 'fs';
+import { fileURLToPath } from 'url';
+import { dirname } from 'path';
 
 const router = express.Router();
 const DATA_DIR = '/data';
+const __dirname = dirname(fileURLToPath(import.meta.url));
+
+router.get('/version', (req, res) => {
+    const packageJsonPath = path.join(__dirname, '../../package.json');
+    fs.readFile(packageJsonPath, 'utf8', (err, data) => {
+        if (err) {
+            return res.status(500).json({ error: 'Failed to read package.json' });
+        }
+        const packageJson = JSON.parse(data);
+        res.json({ version: packageJson.version });
+    });
+});
 
 router.get('/years', (req, res) => {
     try {
