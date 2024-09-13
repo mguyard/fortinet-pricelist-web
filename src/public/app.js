@@ -4,6 +4,8 @@ let activeFilters = {
     search: []   // Pour les termes de recherche
 };
 let itemsPerPage = 50;
+let isNotificationVisible = false;
+let notificationTimeout;
 
 function loadYears() {
     fetch('/api/years')
@@ -167,6 +169,7 @@ function renderTable(data) {
                 });
             }
         });
+        
         // Ajouter la cellule de copie
         const copyCell = row.insertCell();
         const copyIcon = document.createElement('i');
@@ -177,22 +180,25 @@ function renderTable(data) {
             navigator.clipboard.writeText(textToCopy).then(() => {
                 // Afficher la notification
                 const notification = document.getElementById('copyNotification');
-                if (notification.classList.contains('show')) {
+                if (isNotificationVisible) {
                     notification.classList.remove('show');
                     void notification.offsetWidth; // Reflow pour redémarrer l'animation
                 }
                 notification.classList.add('show');
+                isNotificationVisible = true;
 
                 // Réinitialiser le timeout précédent
                 clearTimeout(notificationTimeout);
                 notificationTimeout = setTimeout(() => {
                     notification.classList.remove('show');
+                    isNotificationVisible = false;
                 }, 5000); // Augmenter la durée de visibilité à 5 secondes
 
                 // Ajouter un gestionnaire d'événements pour le clic
                 notification.onclick = () => {
                     notification.classList.remove('show');
                     clearTimeout(notificationTimeout);
+                    isNotificationVisible = false;
                 };
             }).catch(err => {
                 console.error('Error copying text: ', err);
