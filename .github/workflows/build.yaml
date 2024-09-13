@@ -3,12 +3,12 @@ run-name: Build Container
 
 on:
   workflow_dispatch:
-  push:
-    paths:
-      - 'Dockerfile'
-      - 'src/**'
-    branches:
-      - 'dev'
+  # push:
+  #   paths:
+  #     - 'Dockerfile'
+  #     - 'src/**'
+  #   branches:
+  #     - 'dev'
   release:
     types: [published]
 
