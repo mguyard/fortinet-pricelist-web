@@ -101,7 +101,9 @@ function loadFiles(year, quarter) {
 }
 
 function formatFileName(fileName, year, quarter) {
-    let formattedName = fileName.replace(`${year} ${quarter} `, '').replace('.xlsx', '');
+    quarter_only = quarter.split(' ')[0];
+    console.log('Formatting file name:', quarter_only);
+    let formattedName = fileName.replace(`${year} ${quarter_only} `, '').replace('.xlsx', '');
     return formattedName;
 }
 
