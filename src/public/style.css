@@ -2,6 +2,7 @@
     --fortinet-red: #EE3124;
     --fortinet-dark-gray: #4A4A4A;
     --fortinet-light-gray: #F2F2F2;
+    --fortinet-green: #3cb17e;
     --fortinet-white: #FFFFFF;
     --fortinet-black: #000000;
 }
@@ -316,4 +317,46 @@ select, input[type="text"] {
 
 .clear-filters-icon:hover {
     color: var(--fortinet-dark-gray);
+}
+
+.copy-icon {
+    cursor: pointer;
+    color: var(--fortinet-dark-gray);
+    font-size: 1.2em;
+}
+
+.copy-icon:hover {
+    color: var(--fortinet-red);
+}
+
+.copy-notification {
+    visibility: hidden;
+    min-width: 250px;
+    background-color: #4CAF50;
+    color: white;
+    text-align: center;
+    border-radius: 8px;
+    padding: 16px;
+    position: fixed;
+    z-index: 1;
+    right: 30px;
+    bottom: 30px;
+    font-size: 15px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    font-family: 'Open Sans', sans-serif, 'Arial';
+}
+
+.copy-notification.show {
+    visibility: visible;
+    animation: fadein 0.5s, fadeout 0.5s 8.5s;
+}
+
+@keyframes fadein {
+    from {bottom: 0; opacity: 0;}
+    to {bottom: 30px; opacity: 1;}
+}
+
+@keyframes fadeout {
+    from {bottom: 30px; opacity: 1;}
+    to {bottom: 0; opacity: 0;}
 }
