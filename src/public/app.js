@@ -178,7 +178,7 @@ function renderTable(data) {
         copyIcon.classList.add('fas', 'fa-copy', 'copy-icon');
         copyIcon.title = 'Copy to clipboard';
         copyIcon.addEventListener('click', () => {
-            const textToCopy = `${item['Product']} - ${item['Description #1']} - ${item['SKU']} - Unit Public Price: $${item['Price'].toFixed(2)}`;
+            const textToCopy = `${item['Product']} - ${item['Description #1']} - ${item['SKU']} - Public Price per unit: $${item['Price'].toFixed(2)}`;
             navigator.clipboard.writeText(textToCopy).then(() => {
                 // Afficher la notification
                 const notification = document.getElementById('copyNotification');
