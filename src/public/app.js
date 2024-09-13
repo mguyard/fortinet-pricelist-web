@@ -167,6 +167,38 @@ function renderTable(data) {
                 });
             }
         });
+        // Ajouter la cellule de copie
+        const copyCell = row.insertCell();
+        const copyIcon = document.createElement('i');
+        copyIcon.classList.add('fas', 'fa-copy', 'copy-icon');
+        copyIcon.title = 'Copy to clipboard';
+        copyIcon.addEventListener('click', () => {
+            const textToCopy = `${item['Product']} - ${item['Description #1']} - ${item['SKU']} - Public Price: $${item['Price'].toFixed(2)}`;
+            navigator.clipboard.writeText(textToCopy).then(() => {
+                // Afficher la notification
+                const notification = document.getElementById('copyNotification');
+                if (notification.classList.contains('show')) {
+                    notification.classList.remove('show');
+                    void notification.offsetWidth; // Reflow pour redémarrer l'animation
+                }
+                notification.classList.add('show');
+
+                // Réinitialiser le timeout précédent
+                clearTimeout(notificationTimeout);
+                notificationTimeout = setTimeout(() => {
+                    notification.classList.remove('show');
+                }, 5000); // Augmenter la durée de visibilité à 5 secondes
+
+                // Ajouter un gestionnaire d'événements pour le clic
+                notification.onclick = () => {
+                    notification.classList.remove('show');
+                    clearTimeout(notificationTimeout);
+                };
+            }).catch(err => {
+                console.error('Error copying text: ', err);
+            });
+        });
+        copyCell.appendChild(copyIcon);
     });
 
     if (data.length === 0) {
