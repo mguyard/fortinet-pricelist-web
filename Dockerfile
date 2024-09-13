@@ -1,6 +1,7 @@
 FROM node:20-alpine
 
 LABEL maintainer="Guyard Marc <marc@mguyard.com>"
+LABEL org.opencontainers.image.source=https://github.com/mguyard/fortinet-pricelist-web
 LABEL org.opencontainers.image.description="Container NodeJS for parsing and searching in Fortinet Pricelists (stored outside container)"
 LABEL org.opencontainers.image.authors="Guyard Marc <marc@mguyard.com>"
 LABEL org.opencontainers.image.licenses="GPL-3.0"
