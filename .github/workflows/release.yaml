@@ -19,9 +19,9 @@ jobs:
           fetch-depth: 0
           persist-credentials: false
       - name: Setup Node.js
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
-          node-version: "lts/*"
+          node-version: 20
       - name: Generate package-lock.json
         run: npm install --package-lock-only
       - name: Install dependencies
