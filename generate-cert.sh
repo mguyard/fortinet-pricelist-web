@@ -1,15 +1,15 @@
 #!/bin/sh
 
-# Générer une clé privée
+# Generate a private key
 openssl genpkey -algorithm RSA -out /etc/certs/key.pem
 
-# Générer une demande de signature de certificat (CSR)
+# Generate a Certificate Signing Request (CSR)
 openssl req -new -key /etc/certs/key.pem -out /etc/certs/csr.pem -subj "/CN=localhost"
 
-# Générer un certificat auto-signé
+# Generate a self-signed certificate
 openssl x509 -req -days 365 -in /etc/certs/csr.pem -signkey /etc/certs/key.pem -out /etc/certs/cert.pem
 
-# Supprimer le CSR car nous n'en avons plus besoin
+# Remove the CSR as we no longer need it
 rm /etc/certs/csr.pem
 
-echo "Certificat auto-signé généré avec succès."
+echo "Self-signed certificate generated successfully."
