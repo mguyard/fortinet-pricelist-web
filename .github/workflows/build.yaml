@@ -8,7 +8,7 @@ on:
       - 'Dockerfile'
       - 'src/**'
     branches:
-      - 'main'
+      - 'dev'
   release:
     types: [published]
 
