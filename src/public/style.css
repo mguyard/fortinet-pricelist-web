@@ -348,7 +348,7 @@ select, input[type="text"] {
 
 .copy-notification.show {
     visibility: visible;
-    animation: fadein 0.5s, fadeout 0.5s 8.5s;
+    animation: fadein 0.5s, fadeout 0.5s 4.5s;
 }
 
 @keyframes fadein {
