@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fortinet PriceList Search</title>
+    <link rel="stylesheet" href="/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <div class="header-left">
+                <img src="fortinet-logomark-rgb-red.png" alt="Fortinet Logo" class="logo">
+                <h1>PriceList Search</h1>
+            </div>
+            <span id="version" class="version"></span>
+        </header>
+        <div id="app">
+            <form id="searchForm">
+                <div class="form-grid">
+                    <div class="form-group-half">
+                        <div class="form-group">
+                            <label for="yearSelect">Year</label>
+                            <select id="yearSelect">
+                                <option value="">Select a year</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="quarterSelect">Quarter</label>
+                            <select id="quarterSelect" disabled>
+                                <option value="">Select a quarter</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group file-input-container">
+                        <label for="fileSelect">Pricelist</label>
+                        <div class="file-select-wrapper">
+                            <select id="fileSelect" disabled>
+                                <option value="">Select a file</option>
+                            </select>
+                            <button id="loadDataButton" class="load-button">
+                                <i class="fas fa-sync-alt" title="Load Pricelist"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="searchInput">Search</label>
+                    <div class="search-input">
+                        <input type="text" id="searchInput" placeholder="Search...">
+                        <button type="button" id="clearSearchButton" aria-label="Clear search">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+                </div>
+                <button type="submit" class="btn-search">Search</button>
+            </form>
+            <div id="filterContainer">
+                <div id="filterTitle">
+                    <i id="clearAllFilters" class="fas fa-filter clear-filters-icon" title="Clear all filters"></i>
+                    <h3>Active Filters:</h3>
+                </div>
+                <div id="filterTags"></div>
+            </div>
+            <div class="results-controls">
+                <select id="itemsPerPage">
+                    <option value="10">10 per page</option>
+                    <option value="25">25 per page</option>
+                    <option value="50" selected>50 per page</option>
+                    <option value="100">100 per page</option>
+                </select>
+            </div>
+            <div id="results">
+                <table id="resultsTable">
+                    <thead>
+                        <tr>
+                            <th>Identifier</th>
+                            <th>Product Family Group</th>
+                            <th>Product</th>
+                            <th>Product Type</th>
+                            <th>Description</th>
+                            <th>SKU</th>
+                            <th>Price</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Results will be inserted here -->
+                    </tbody>
+                </table>
+            </div>
+            <nav aria-label="Page navigation">
+                <ul class="pagination" id="pagination"></ul>
+            </nav>
+        </div>
+    </div>
+    <script src="/app.js"></script>
+</body>
+</html>
