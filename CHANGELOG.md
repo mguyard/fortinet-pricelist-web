@@ -1,3 +1,10 @@
+## [1.1.1](https://github.com/mguyard/fortinet-pricelist-web/compare/v1.1.0...v1.1.1) (2024-09-13)
+
+
+### Bug Fixes
+
+* Update file name formatting to handle quarter correctly ([fd4916f](https://github.com/mguyard/fortinet-pricelist-web/commit/fd4916f7db95e8f01d3826f0a1815bde770fdd45))
+
 ## [1.1.1-beta.1](https://github.com/mguyard/fortinet-pricelist-web/compare/v1.1.0...v1.1.1-beta.1) (2024-09-13)
 
 
