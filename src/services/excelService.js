@@ -1,6 +1,9 @@
-import fs from 'fs';
+import * as fs from 'fs';
 import path from 'path';
-import XLSX from 'xlsx';
+import * as XLSX from 'xlsx';
+
+/* load 'fs' for readFile and writeFile support */
+XLSX.set_fs(fs);
 
 const DATA_DIR = '/data';
 
