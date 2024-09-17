@@ -1,6 +1,6 @@
 {
     "name": "fortinet-pricelist-parser",
-    "version": "1.1.2-beta.1",
+    "version": "1.1.2",
     "description": "Fortinet Pricelist Parser (FPP)",
     "main": "src/index.js",
     "type": "module",
